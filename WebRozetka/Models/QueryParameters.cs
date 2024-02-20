@@ -13,7 +13,10 @@
         }
 
         public string Query { get; set; } = "";
-
-        public string OrderBy { get; set; } = "Id";
+        public int CategoryId { get; set; } = 0;
+        public int PriceMin { get; set; } = 0;
+        public int PriceMax { get; set; } = 0;
+        public int QuantityMin { get; set; } = 0;
+        public int QuantityMax { get; set; } = 0;
     }
 }

@@ -8,12 +8,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Utilities;
 using WebRozetka.Data;
 using WebRozetka.Data.Entities.Photo;
 using WebRozetka.Data.Entities.Product;
 using WebRozetka.Helpers;
 using WebRozetka.Interfaces.Repo;
+using WebRozetka.Models;
 using WebRozetka.Models.Product;
+using WebRozetka.Repository;
 
 namespace WebRozetka.Controllers
 {
@@ -37,13 +40,14 @@ namespace WebRozetka.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProducts()
+        public async Task<IActionResult> GetProducts([FromQuery] QueryParameters queryParameters)
         {
             try
             {
-                var productViewModels = _mapper.Map<List<ProductViewModel>>(_productRepository.GetAll());
+                var count = await _productRepository.GetCountAsync(queryParameters);
+                var items = _mapper.Map<List<ProductViewModel>>(_productRepository.GetAll(queryParameters));
 
-                return Ok(productViewModels);
+                return Ok(new { count, items });
             }
             catch (Exception ex)
             {

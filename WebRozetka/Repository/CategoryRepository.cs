@@ -61,13 +61,13 @@ namespace WebRozetka.Repository
             return entity;
         }
 
-        public Task<int> GetCountAsync(string search = "")
+        public Task<int> GetCountAsync(QueryParameters queryParameters)
         {
             var entities = _context.Set<CategoryEntity>().Where(x => !x.IsDeleted);
 
-            if (!search.IsNullOrEmpty())
+            if (!queryParameters.Query.IsNullOrEmpty())
             {
-                entities = entities.Where(x => x.Name.ToLower().Contains(search.ToLower()));
+                entities = entities.Where(x => x.Name.ToLower().Contains(queryParameters.Query.ToLower()));
             }
 
             return entities.CountAsync();

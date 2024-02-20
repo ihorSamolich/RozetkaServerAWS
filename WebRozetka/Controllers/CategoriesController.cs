@@ -28,7 +28,7 @@ namespace WebRozetka.Controllers
         {
             try
             {
-                var count = await _categoryRepository.GetCountAsync(queryParameters.Query);
+                var count = await _categoryRepository.GetCountAsync(queryParameters);
                 var items = _categoryRepository.GetAll(queryParameters);
 
                 return Ok(new { count, items });

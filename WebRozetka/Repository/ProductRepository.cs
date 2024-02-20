@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using WebRozetka.Data;
 using WebRozetka.Data.Entities.Category;
 using WebRozetka.Data.Entities.Product;
@@ -36,7 +37,45 @@ namespace WebRozetka.Repository
 
         public IQueryable<ProductEntity> GetAll(QueryParameters queryParameters)
         {
-            throw new NotImplementedException();
+            IQueryable<ProductEntity> entities = _context.Set<ProductEntity>()
+                .Include(x => x.Photos)
+                .Where(x => !x.IsDeleted);
+
+            if (!string.IsNullOrEmpty(queryParameters.Query))
+            {
+                entities = entities.Where(x => x.Name.ToLower().Contains(queryParameters.Query.ToLower()));
+            }
+
+            if (queryParameters.CategoryId > 0)
+            {
+                entities = entities.Where(x => x.CategoryId == queryParameters.CategoryId);
+            }
+
+            if (queryParameters.PriceMin > 0)
+            {
+                entities = entities.Where(x => x.Price >= queryParameters.PriceMin);
+            }
+            if (queryParameters.PriceMax > 0)
+            {
+                entities = entities.Where(x => x.Price <= queryParameters.PriceMax);
+            }
+
+            if (queryParameters.QuantityMin > 0)
+            {
+                entities = entities.Where(x => x.Quantity >= queryParameters.QuantityMin);
+            }
+            if (queryParameters.QuantityMax > 0)
+            {
+                entities = entities.Where(x => x.Quantity <= queryParameters.QuantityMax);
+            }
+
+            entities = entities.OrderBy(x => x.Id);
+
+            entities = entities
+                .Skip(queryParameters.PageCount * (queryParameters.Page - 1))
+                .Take(queryParameters.PageCount);
+
+            return entities;
         }
 
         public IQueryable<ProductEntity> GetByCategory(int category)
@@ -54,9 +93,40 @@ namespace WebRozetka.Repository
                 .SingleOrDefaultAsync();
         }
 
-        public Task<int> GetCountAsync(string search = "")
+        public Task<int> GetCountAsync(QueryParameters queryParameters)
         {
-            throw new NotImplementedException();
+            IQueryable<ProductEntity> entities = _context.Set<ProductEntity>()
+                 .Where(x => !x.IsDeleted);
+
+            if (!string.IsNullOrEmpty(queryParameters.Query))
+            {
+                entities = entities.Where(x => x.Name.ToLower().Contains(queryParameters.Query.ToLower()));
+            }
+
+            if (queryParameters.CategoryId > 0)
+            {
+                entities = entities.Where(x => x.CategoryId == queryParameters.CategoryId);
+            }
+
+            if (queryParameters.PriceMin > 0)
+            {
+                entities = entities.Where(x => x.Price >= queryParameters.PriceMin);
+            }
+            if (queryParameters.PriceMax > 0)
+            {
+                entities = entities.Where(x => x.Price <= queryParameters.PriceMax);
+            }
+
+            if (queryParameters.QuantityMin > 0)
+            {
+                entities = entities.Where(x => x.Quantity >= queryParameters.QuantityMin);
+            }
+            if (queryParameters.QuantityMax > 0)
+            {
+                entities = entities.Where(x => x.Quantity <= queryParameters.QuantityMax);
+            }
+
+            return entities.CountAsync();
         }
 
         public async Task<bool> Save()

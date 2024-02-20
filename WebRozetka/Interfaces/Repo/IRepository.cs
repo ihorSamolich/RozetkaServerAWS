@@ -7,7 +7,7 @@ namespace WebRozetka.Interfaces.Repo
         Task<T> GetByIdAsync(int id);
         IQueryable<T> GetAll();
         IQueryable<T> GetAll(QueryParameters queryParameters);
-        Task<int> GetCountAsync(string search = "");
+        Task<int> GetCountAsync(QueryParameters queryParameters);
         T AddAsync(T entity);
         T Update(T entity);
         void DeleteAsync(int id);

@@ -53,7 +53,7 @@ namespace WebRozetka.Repository
             return await _context.Set<PhotoEntity>().Where(x => x.Id == id).SingleOrDefaultAsync();
         }
 
-        public Task<int> GetCountAsync(string search = "")
+        public Task<int> GetCountAsync(QueryParameters queryParameters)
         {
             throw new NotImplementedException();
         }
