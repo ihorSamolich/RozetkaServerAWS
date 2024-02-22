@@ -180,12 +180,15 @@ namespace WebRozetka
             });
 
             //Налаштування CORS
-            app.UseCors(options => options
-                .WithOrigins(new[] { "http://localhost:5173", "http://localhost:3000", "http://localhost:5135", "https://vercel.com" })
-                .AllowAnyHeader()
-                .AllowAnyMethod()
-                .AllowCredentials()
-            );
+            app.UseCors(options =>
+                options.AllowAnyHeader().AllowAnyOrigin().AllowAnyMethod());
+
+            //app.UseCors(options => options
+            //    .WithOrigins(new[] { "http://localhost:5173", "http://localhost:3000", "http://localhost:5135", "https://vercel.com" })
+            //    .AllowAnyHeader()
+            //    .AllowAnyMethod()
+            //    .AllowCredentials()
+            //);
 
 
             // -- Налаштування CORS
