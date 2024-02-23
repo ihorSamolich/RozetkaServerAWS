@@ -70,36 +70,6 @@ namespace WebRozetka
             }).CreateMapper());
 
 
-
-            ////builder.Services.AddCors();
-            ////builder.Services.AddCors(options =>
-            ////{
-            ////    options.AddDefaultPolicy(
-            ////        policy =>
-            ////        {
-            ////            policy
-            ////                .AllowAnyOrigin()
-            ////                .AllowAnyMethod()
-            ////                .AllowAnyHeader();
-            ////        });
-            ////});
-
-
-            //builder.Services.AddCors(options =>
-            //{
-            //    options.AddPolicy("AllowSpecificOrigins",
-            //        builder =>
-            //        {
-            //            builder.WithOrigins("http://localhost:5173")
-            //                .AllowAnyHeader()
-            //                .AllowAnyMethod();
-            //        });
-            //});
-
-
-            //-----------
-
-
             builder.Services.AddFluentValidationAutoValidation();
             builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 

@@ -23,6 +23,17 @@ namespace WebRozetka.Helpers
             return fileName;
         }
 
+        public static async Task<string> SaveImageFromUrlAsync(string imageUrl)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                var bytes = await httpClient.GetByteArrayAsync(imageUrl);
+                var fileName = await SaveBytesCompres(bytes);
+                return fileName;
+            }
+        }
+
+
         private static async Task<string> SaveBytesCompres(byte[] bytes)
         {
             string imageName = Path.GetRandomFileName() + ".webp";
