@@ -45,7 +45,7 @@ namespace WebRozetka.Repository
             return entity;
         }
 
-        public async void DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
             var entity = await GetByIdAsync(id);
 
@@ -75,7 +75,7 @@ namespace WebRozetka.Repository
 
         public async Task<bool> Save()
         {
-            return (await _context.SaveChangesAsync() >= 0);
+            return (_context.SaveChanges() >= 0);
         }
     }
 }

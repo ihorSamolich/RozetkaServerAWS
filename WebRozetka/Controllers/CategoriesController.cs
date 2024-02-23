@@ -135,14 +135,9 @@ namespace WebRozetka.Controllers
         {
             try
             {
-                _categoryRepository.DeleteAsync(id);
+                await _categoryRepository.DeleteAsync(id);
 
-                var result = await _categoryRepository.Save();
-
-                if (!result)
-                {
-                    return BadRequest("Помилка видалення категорії!");
-                }
+                await _categoryRepository.Save();
 
                 return Ok("Категорія успішно видалена!");
             }

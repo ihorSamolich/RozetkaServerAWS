@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using WebRozetka.Constants;
+using WebRozetka.Data.Entities.Category;
 using WebRozetka.Data.Entities.Identity;
 using WebRozetka.Data.Entities.Order;
 using WebRozetka.Data.Entities.Photo;
@@ -97,13 +98,37 @@ namespace WebRozetka.Data
                     novaPoshta.GetSettlements();
                 }
 
-                //if (!context.Warehouses.Any())
-                //{
-                //    novaPoshta.GetWarehouses();
-                //}
+                if (!context.Warehouses.Any())
+                {
+                    novaPoshta.GetWarehouses();
+                }
+
+                if (!context.Categories.Any())
+                {
+                    Faker faker = new Faker();
+
+                    var fakeCategory = new Faker<CategoryEntity>("uk")
+                        .RuleFor(o => o.IsDeleted, f => false)
+                        .RuleFor(o => o.DateCreated, f => DateTime.UtcNow)
+                        .RuleFor(c => c.Name, f => f.Commerce.Categories(1)[0])
+                        .RuleFor(c => c.Description, f => f.Lorem.Paragraph());
+
+                    var fakeCategories = fakeCategory.Generate(10);
+
+                    foreach (var category in fakeCategories)
+                    {
+                        var fakeImage = await ImageWorker.SaveImageFromUrlAsync(faker.Image.LoremFlickrUrl());
+                        category.Image = fakeImage;
+                    }
+
+                    context.Categories.AddRange(fakeCategories);
+                    context.SaveChanges();
+                }
 
                 if (context.Products.Count() < 1000)
                 {
+                    Faker faker = new Faker();
+
                     var categoriesId = context.Categories.Where(c => !c.IsDeleted).Select(c => c.Id).ToList();
 
                     var fakeProduct = new Faker<ProductEntity>("uk")
@@ -120,8 +145,6 @@ namespace WebRozetka.Data
 
                     var fakeProducts = fakeProduct.Generate(100);
 
-                    Faker faker = new Faker();
-
                     context.Products.AddRange(fakeProducts);
                     context.SaveChanges();
 
@@ -137,12 +160,9 @@ namespace WebRozetka.Data
                             photos.Add(new PhotoEntity { FilePath = fakeImage, ProductId = product.Id });
                         }
                     }
-
                     context.AddRange(photos);
                     context.SaveChanges();
-
                 }
-
             }
         }
     }

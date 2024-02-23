@@ -23,15 +23,16 @@ namespace WebRozetka.Repository
             return entity;
         }
 
-        public void DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            var photo = _context.Set<PhotoEntity>().Find(id);
+            var photo = await _context.Set<PhotoEntity>().FindAsync(id);
 
             if (photo != null)
             {
                 _context.Set<PhotoEntity>().Remove(photo);
             }
         }
+
 
         public IQueryable<PhotoEntity> GetAll()
         {

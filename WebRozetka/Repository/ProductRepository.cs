@@ -23,7 +23,7 @@ namespace WebRozetka.Repository
             return entity;
         }
 
-        public void DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
             throw new NotImplementedException();
         }

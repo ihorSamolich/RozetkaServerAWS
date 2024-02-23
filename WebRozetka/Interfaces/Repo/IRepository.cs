@@ -10,7 +10,7 @@ namespace WebRozetka.Interfaces.Repo
         Task<int> GetCountAsync(QueryParameters queryParameters);
         T AddAsync(T entity);
         T Update(T entity);
-        void DeleteAsync(int id);
+        Task DeleteAsync(int id);
         Task<bool> Save();
     }
 
