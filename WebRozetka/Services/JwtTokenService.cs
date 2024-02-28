@@ -16,7 +16,7 @@ namespace WebRozetka.Services
             _configuration = configuration;
         }
 
-        public async Task<string> CreateTokenAsync(UserEntity user)
+        public async Task<string> CreateTokenAsync(UserEntity user, IList<string> roles)
         {
             var claims = new List<Claim>
             {
@@ -24,6 +24,8 @@ namespace WebRozetka.Services
                 new ("name", $"{user.LastName} {user.FirstName}"),
                 new ("image", user.Image),
             };
+
+            claims.AddRange(roles.Select(role => new Claim("role", role)));
 
             var key = Encoding.UTF8.GetBytes(_configuration.GetValue<string>("JwtSecretKey"));
             var signinKey = new SymmetricSecurityKey(key);

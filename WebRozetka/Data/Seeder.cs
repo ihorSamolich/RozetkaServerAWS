@@ -143,7 +143,7 @@ namespace WebRozetka.Data
                          .RuleFor(o => o.Discount, f => f.Random.Number(0, 99))
                          .RuleFor(o => o.CategoryId, f => f.PickRandom(categoriesId));
 
-                    var fakeProducts = fakeProduct.Generate(100);
+                    var fakeProducts = fakeProduct.Generate(200);
 
                     context.Products.AddRange(fakeProducts);
                     context.SaveChanges();

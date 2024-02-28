@@ -9,11 +9,18 @@
 
     public class OrderViewModel
     {
-        public int OrderId { get; set; }
         public string CustomerName { get; set; }
-        public string CustomerEmail { get; set; }
         public string CustomerPhone { get; set; }
-        public List<OrderItemDetailViewModel> OrderItems { get; set; }
+        public string PostAddress { get; set; }
+        public string OrderStatus { get; set; }
+        public List<string> Products { get; set; }
 
     }
 }
+
+
+//public int OrderId { get; set; }
+//public string CustomerName { get; set; }
+//public string CustomerEmail { get; set; }
+//public string CustomerPhone { get; set; }
+//public List<OrderItemDetailViewModel> OrderItems { get; set; }

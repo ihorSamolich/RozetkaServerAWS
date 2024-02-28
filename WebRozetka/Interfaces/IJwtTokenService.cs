@@ -4,6 +4,6 @@ namespace WebRozetka.Interfaces
 {
     public interface IJwtTokenService
     {
-        Task<string> CreateTokenAsync(UserEntity user);
+        Task<string> CreateTokenAsync(UserEntity user, IList<string> roles);
     }
 }

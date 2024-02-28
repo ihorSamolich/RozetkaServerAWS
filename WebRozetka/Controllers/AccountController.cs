@@ -36,7 +36,9 @@ namespace WebRozetka.Controllers
                     return BadRequest("Невірно введені дані! Спробуйте ще раз!");
                 };
 
-                var token = await _jwtTokenService.CreateTokenAsync(user);
+                var roles = await _userManager.GetRolesAsync(user);
+
+                var token = await _jwtTokenService.CreateTokenAsync(user, roles);
                 return Ok(new { token });
             }
             catch (Exception ex)
@@ -76,7 +78,9 @@ namespace WebRozetka.Controllers
                     return BadRequest("Помилка реєстрації!");
                 }
 
-                var token = await _jwtTokenService.CreateTokenAsync(user);
+                var roles = await _userManager.GetRolesAsync(user);
+
+                var token = await _jwtTokenService.CreateTokenAsync(user, roles);
                 return Ok(new { token });
             }
             catch (Exception ex)
