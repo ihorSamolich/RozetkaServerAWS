@@ -182,5 +182,19 @@ namespace WebRozetka.Controllers
             return Ok(salesByCategoriesViewModel);
         }
 
+        [HttpGet("count")]
+        public async Task<IActionResult> GetOrdersCount()
+        {
+            try
+            {
+                var count = await _context.Orders.CountAsync();
+                return Ok(new { count });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Помилка сервера: " + ex.Message);
+            }
+        }
+
     }
 }

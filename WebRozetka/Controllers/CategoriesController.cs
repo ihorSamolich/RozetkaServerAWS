@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Utilities;
 using WebRozetka.Data.Entities.Category;
 using WebRozetka.Helpers;
 using WebRozetka.Interfaces.Repo;
@@ -49,6 +50,20 @@ namespace WebRozetka.Controllers
                 var result = items.Select(item => new { item.Name, item.Id });
 
                 return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Помилка сервера: " + ex.Message);
+            }
+        }
+
+        [HttpGet("count")]
+        public async Task<IActionResult> GetCategoriesCount()
+        {
+            try
+            {
+                var count = await _categoryRepository.GetCountAsync(new QueryParameters());
+                return Ok(new { count });
             }
             catch (Exception ex)
             {

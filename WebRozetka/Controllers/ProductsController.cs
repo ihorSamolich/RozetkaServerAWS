@@ -93,6 +93,19 @@ namespace WebRozetka.Controllers
             }
         }
 
+        [HttpGet("count")]
+        public async Task<IActionResult> GetProductsCount()
+        {
+            try
+            {
+                var count = await _productRepository.GetCountAsync(new QueryParameters());
+                return Ok(new { count });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Помилка сервера: " + ex.Message);
+            }
+        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProductById(int id)

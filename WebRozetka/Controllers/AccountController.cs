@@ -7,6 +7,7 @@ using WebRozetka.Data.Entities;
 using WebRozetka.Data.Entities.Identity;
 using WebRozetka.Helpers;
 using WebRozetka.Interfaces;
+using WebRozetka.Models;
 using WebRozetka.Models.Account;
 
 namespace WebRozetka.Controllers
@@ -88,5 +89,20 @@ namespace WebRozetka.Controllers
                 return BadRequest("Помилка авторизації: " + ex);
             }
         }
+
+        [HttpGet("count")]
+        public async Task<IActionResult> GetUsersCount()
+        {
+            try
+            {
+                var count = _userManager.Users.Count();
+                return Ok(new { count });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Помилка сервера: " + ex.Message);
+            }
+        }
+
     }
 }
