@@ -25,7 +25,7 @@ namespace WebRozetka.Services
                 new ("image", user.Image),
             };
 
-            claims.AddRange(roles.Select(role => new Claim("role", role)));
+            claims.AddRange(roles.Select(role => new Claim("roles", role)));
 
             var key = Encoding.UTF8.GetBytes(_configuration.GetValue<string>("JwtSecretKey"));
             var signinKey = new SymmetricSecurityKey(key);
